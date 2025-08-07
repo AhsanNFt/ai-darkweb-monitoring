@@ -91,7 +91,7 @@ export function DashboardLayout() {
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className={`${sidebarCollapsed ? 'w-16' : 'w-60'} h-[calc(100vh-4rem)] bg-cyber-dark border-r border-cyber-surface cyber-transition`}>
+        <aside className={`${sidebarCollapsed ? 'w-16' : 'w-60'} h-[calc(100vh-4rem)] bg-cyber-dark cyber-transition`}>
           <nav className="p-4 space-y-2">
             {sidebarItems.map((item) => (
               <NavLink
