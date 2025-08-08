@@ -17,9 +17,10 @@ export default function Login() {
     
     // Simulate login
     setTimeout(() => {
+      localStorage.setItem("authToken", "demo-token");
       setIsLoading(false);
       navigate("/");
-    }, 1500);
+    }, 1200);
   };
 
   return (
@@ -119,13 +120,9 @@ export default function Login() {
             </Button>
 
             <div className="text-center">
-              <Button
-                type="button"
-                variant="link"
-                className="text-cyber-cyan hover:text-cyber-cyan-glow text-sm"
-              >
+              <Link to="/forgot-password" className="text-cyber-cyan hover:text-cyber-cyan-glow text-sm">
                 Forgot your password?
-              </Button>
+              </Link>
             </div>
           </form>
 

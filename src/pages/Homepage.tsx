@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   Shield, 
   Search, 
@@ -162,12 +165,12 @@ export default function Homepage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link to="/signup">
+              <a href="#contact">
                 <Button size="lg" className="bg-cyber-cyan text-cyber-black hover:bg-cyber-cyan-glow cyber-transition text-lg px-8 py-3">
                   Request Demo
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-              </Link>
+              </a>
               <Link to="/signup">
                 <Button variant="outline" size="lg" className="border-cyber-cyan text-cyber-cyan hover:bg-cyber-cyan hover:text-cyber-black cyber-transition text-lg px-8 py-3">
                   Get Started Free
@@ -326,6 +329,33 @@ export default function Homepage() {
               Contact Us
             </Button>
           </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-cyber-text mb-2">Contact Us</h2>
+            <p className="text-cyber-text-dim">Request a demo or ask anything—our team will reach out shortly.</p>
+          </div>
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2 md:col-span-1">
+              <Label htmlFor="name" className="text-cyber-text">Full Name</Label>
+              <Input id="name" placeholder="Jane Doe" className="bg-cyber-surface border-cyber-surface text-cyber-text focus:border-cyber-cyan focus:ring-cyber-cyan" />
+            </div>
+            <div className="space-y-2 md:col-span-1">
+              <Label htmlFor="email" className="text-cyber-text">Email</Label>
+              <Input id="email" type="email" placeholder="you@company.com" className="bg-cyber-surface border-cyber-surface text-cyber-text focus:border-cyber-cyan focus:ring-cyber-cyan" />
+            </div>
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="message" className="text-cyber-text">Message</Label>
+              <Textarea id="message" placeholder="Tell us about your needs..." className="min-h-32 bg-cyber-surface border-cyber-surface text-cyber-text focus:border-cyber-cyan focus:ring-cyber-cyan" />
+            </div>
+            <div className="md:col-span-2">
+              <Button className="bg-cyber-cyan text-cyber-black hover:bg-cyber-cyan-glow cyber-transition">Send Request</Button>
+            </div>
+          </form>
         </div>
       </section>
 
