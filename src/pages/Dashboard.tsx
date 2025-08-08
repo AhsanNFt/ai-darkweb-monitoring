@@ -152,7 +152,7 @@ export default function Dashboard() {
       </div>
 
       {/* Actor Activity Heatmap */}
-      <Card className="cyber-panel">
+      <Card className="cyber-panel overflow-hidden">
         <CardHeader>
           <CardTitle className="text-cyber-text">Actor Activity by Day/Hour</CardTitle>
           <p className="text-sm text-cyber-text-dim">Heatmap showing threat actor activity patterns</p>
@@ -164,11 +164,7 @@ export default function Dashboard() {
                 {Array.from({ length: 168 }, (_, i) => (
                   <div
                     key={i}
-                    className={`w-3 h-3 rounded-sm ${
-                      Math.random() > 0.7 ? 'bg-cyber-red' :
-                      Math.random() > 0.5 ? 'bg-cyber-orange' :
-                      Math.random() > 0.3 ? 'bg-cyber-cyan' : 'bg-cyber-surface'
-                    }`}
+                    className="w-3 h-3 rounded-sm bg-cyber-surface"
                   ></div>
                 ))}
               </div>
