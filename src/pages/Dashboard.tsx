@@ -159,16 +159,8 @@ export default function Dashboard() {
         </CardHeader>
         <CardContent>
           <div className="h-40 flex items-center justify-center text-cyber-text-dim">
-            <div className="text-center">
-              <div className="grid grid-cols-24 gap-1 mb-4">
-                {Array.from({ length: 168 }, (_, i) => (
-                  <div
-                    key={i}
-                    className="w-3 h-3 rounded-sm bg-cyber-surface"
-                  ></div>
-                ))}
-              </div>
-              <p className="text-sm">7-day activity heatmap</p>
+            <div className="text-center text-cyber-text-dim">
+              <p className="text-sm">Heatmap placeholder (disabled)</p>
             </div>
           </div>
         </CardContent>
