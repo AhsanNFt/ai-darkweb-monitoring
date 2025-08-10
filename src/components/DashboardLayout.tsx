@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Search, 
@@ -34,6 +34,19 @@ const sidebarItems = [
 
 export function DashboardLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      navigate("/home");
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/home");
+  };
 
   return (
     <div className="min-h-screen bg-background font-cyber">
@@ -83,7 +96,7 @@ export function DashboardLayout() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-cyber-panel border-cyber-surface">
               <DropdownMenuItem className="text-cyber-text hover:bg-cyber-surface focus:bg-cyber-surface">Profile</DropdownMenuItem>
-              <DropdownMenuItem className="text-cyber-text hover:bg-cyber-surface focus:bg-cyber-surface">Logout</DropdownMenuItem>
+              <DropdownMenuItem onSelect={handleLogout} className="text-cyber-text hover:bg-cyber-surface focus:bg-cyber-surface">Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

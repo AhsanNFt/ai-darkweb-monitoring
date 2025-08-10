@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -113,6 +113,13 @@ export default function Homepage() {
     }
   ];
 
+  const navigate = useNavigate();
+  const handleGetStarted = () => {
+    const token = localStorage.getItem("authToken");
+    if (token) navigate("/");
+    else navigate("/login");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -132,11 +139,9 @@ export default function Homepage() {
               <Link to="/login" className="text-cyber-text-dim hover:text-cyber-cyan cyber-transition">Login</Link>
             </div>
 
-            <Link to="/signup">
-              <Button className="bg-cyber-cyan text-cyber-black hover:bg-cyber-cyan-glow cyber-transition">
-                Get Started
-              </Button>
-            </Link>
+            <Button onClick={handleGetStarted} className="bg-cyber-cyan text-cyber-black hover:bg-cyber-cyan-glow cyber-transition">
+              Get Started
+            </Button>
           </div>
         </div>
       </nav>
@@ -171,11 +176,9 @@ export default function Homepage() {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </a>
-              <Link to="/signup">
-                <Button variant="outline" size="lg" className="border-cyber-cyan text-cyber-cyan hover:bg-cyber-cyan hover:text-cyber-black cyber-transition text-lg px-8 py-3">
-                  Get Started Free
-                </Button>
-              </Link>
+              <Button onClick={handleGetStarted} variant="outline" size="lg" className="border-cyber-cyan text-cyber-cyan hover:bg-cyber-cyan hover:text-cyber-black cyber-transition text-lg px-8 py-3">
+                Get Started Free
+              </Button>
             </div>
           </div>
         </div>
