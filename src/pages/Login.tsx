@@ -5,22 +5,28 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Shield, Lock, Mail, Eye, EyeOff } from "lucide-react";
-
+import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const { toast } = useToast();
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate login
-    setTimeout(() => {
-      localStorage.setItem("authToken", "demo-token");
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        toast({ title: "Login failed", description: error.message, variant: "destructive" });
+      } else {
+        navigate("/");
+      }
+    } finally {
       setIsLoading(false);
-      navigate("/");
-    }, 1200);
+    }
   };
 
   return (
@@ -71,6 +77,8 @@ export default function Login() {
                     id="email"
                     type="email"
                     placeholder="admin@company.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="pl-10 bg-cyber-surface border-cyber-surface text-cyber-text focus:border-cyber-cyan focus:ring-cyber-cyan"
                     required
                   />
@@ -85,6 +93,8 @@ export default function Login() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="pl-10 pr-10 bg-cyber-surface border-cyber-surface text-cyber-text focus:border-cyber-cyan focus:ring-cyber-cyan"
                     required
                   />

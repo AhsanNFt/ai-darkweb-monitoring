@@ -17,6 +17,8 @@ import Homepage from "./pages/Homepage";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import { AuthProvider } from "@/auth/AuthProvider";
+import RequireAuth from "@/auth/RequireAuth";
 
 const queryClient = new QueryClient();
 
@@ -25,26 +27,28 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/home" element={<Homepage />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/" element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="explorer" element={<ThreatExplorer />} />
-            <Route path="graph" element={<GraphView />} />
-            <Route path="alerts" element={<AlertCenter />} />
-            <Route path="reports" element={<ReportGenerator />} />
-            <Route path="users" element={<UserManagement />} />
-            <Route path="settings" element={<Settings />} />
-          </Route>
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/home" element={<Homepage />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/" element={<RequireAuth><DashboardLayout /></RequireAuth>}>
+              <Route index element={<Dashboard />} />
+              <Route path="explorer" element={<ThreatExplorer />} />
+              <Route path="graph" element={<GraphView />} />
+              <Route path="alerts" element={<AlertCenter />} />
+              <Route path="reports" element={<ReportGenerator />} />
+              <Route path="users" element={<UserManagement />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

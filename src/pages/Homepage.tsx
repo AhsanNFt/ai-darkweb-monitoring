@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/auth/AuthProvider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -114,9 +115,9 @@ export default function Homepage() {
   ];
 
   const navigate = useNavigate();
+  const { session } = useAuth();
   const handleGetStarted = () => {
-    const token = localStorage.getItem("authToken");
-    if (token) navigate("/");
+    if (session) navigate("/");
     else navigate("/login");
   };
 

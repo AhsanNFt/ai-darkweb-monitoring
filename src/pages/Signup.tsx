@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Link, useNavigate } from "react-router-dom";
 import { Shield, Eye, EyeOff, User, Mail, Building, Lock, CheckCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-
+import { supabase } from "@/integrations/supabase/client";
 export default function Signup() {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -77,25 +77,26 @@ export default function Signup() {
     setIsLoading(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      toast({
-        title: "Account created successfully!",
-        description: "Welcome to DarkSight. Redirecting to dashboard...",
+      const redirectUrl = `${window.location.origin}/`;
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: { emailRedirectTo: redirectUrl }
       });
-      
-      // Redirect to dashboard after successful signup
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
-      
-    } catch (error) {
-      toast({
-        title: "Signup failed",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
+
+      if (error) {
+        toast({ title: "Signup failed", description: error.message, variant: "destructive" });
+      } else {
+        if (data.session) {
+          toast({ title: "Welcome!", description: "Account created and signed in." });
+          navigate("/");
+        } else {
+          toast({ title: "Check your email", description: "We sent a confirmation link to complete signup." });
+          navigate("/login");
+        }
+      }
+    } catch (error: any) {
+      toast({ title: "Signup failed", description: error.message ?? "Please try again later.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }

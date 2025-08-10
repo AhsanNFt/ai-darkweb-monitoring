@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Mail, Send } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -14,14 +15,17 @@ export default function ForgotPassword() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const redirectTo = `${window.location.origin}/reset-password`;
+      const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+      if (error) {
+        toast({ title: "Reset failed", description: error.message, variant: "destructive" });
+      } else {
+        toast({ title: "Reset link sent", description: "Check your inbox for a password reset link." });
+      }
+    } finally {
       setLoading(false);
-      toast({
-        title: "Reset link sent",
-        description: "Check your inbox for a password reset link.",
-      });
-    }, 1000);
+    }
   };
 
   return (

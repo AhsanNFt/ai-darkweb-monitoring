@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Lock, Check } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
@@ -14,7 +15,7 @@ export default function ResetPassword() {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password.length < 8) {
       toast({ title: "Password too short", description: "Use at least 8 characters.", variant: "destructive" });
@@ -25,11 +26,17 @@ export default function ResetPassword() {
       return;
     }
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) {
+        toast({ title: "Update failed", description: error.message, variant: "destructive" });
+      } else {
+        toast({ title: "Password updated", description: "You can now log in with your new password." });
+        navigate("/login");
+      }
+    } finally {
       setLoading(false);
-      toast({ title: "Password updated", description: "You can now log in with your new password." });
-      navigate("/login");
-    }, 1000);
+    }
   };
 
   return (

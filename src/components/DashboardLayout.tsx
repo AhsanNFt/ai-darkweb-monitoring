@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { 
   LayoutDashboard, 
@@ -21,7 +21,7 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-
+import { supabase } from "@/integrations/supabase/client";
 const sidebarItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Explorer", url: "/explorer", icon: Search },
@@ -36,15 +36,9 @@ export function DashboardLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      navigate("/home");
-    }
-  }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     navigate("/home");
   };
 
