@@ -129,10 +129,16 @@ export default function Login() {
               )}
             </Button>
 
-            <div className="text-center">
+            <div className="text-center space-y-2">
               <Link to="/forgot-password" className="text-cyber-cyan hover:text-cyber-cyan-glow text-sm">
                 Forgot your password?
               </Link>
+              <p className="text-sm text-cyber-text-dim">
+                Don’t have an account?{" "}
+                <Link to="/signup" className="text-cyber-cyan hover:text-cyber-cyan-glow font-medium">
+                  Sign up
+                </Link>
+              </p>
             </div>
           </form>
 
